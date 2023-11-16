@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteMappingsManager">
+    <list>
+      <list>
+        <remote-mappings server-id="python@sftp://liuzq@www.moocex.cn:9022/aiproj/envs/mtraj/bin/python3.6">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$" remote-root="/aiproj/project/MTraj" />
+            </list>
+          </settings>
+        </remote-mappings>
+        <remote-mappings server-id="python@sshConfig://liuzq@www.moocex.cn:9022 agent/aiproj/envs/mtraj/bin/python3.6">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$" remote-root="/aiproj/project/MTraj" />
+            </list>
+          </settings>
+        </remote-mappings>
+      </list>
+    </list>
+  </component>
+</project>

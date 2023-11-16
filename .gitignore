@@ -1,0 +1,7 @@
+results/*
+!results/
+experiment/
+data/*
+!data/
+multi_main.py
+*.log

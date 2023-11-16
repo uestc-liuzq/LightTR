@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ca7f6269-c813-443b-acae-07e68e74de09" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/federated_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/federated_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/federated_util/evalandprint.py" beforeDir="false" afterPath="$PROJECT_DIR$/federated_util/evalandprint.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/federated_util/traineval.py" beforeDir="false" afterPath="$PROJECT_DIR$/federated_util/traineval.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map_matching/candidate_point.py" beforeDir="false" afterPath="$PROJECT_DIR$/map_matching/candidate_point.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metafed.py" beforeDir="false" afterPath="$PROJECT_DIR$/metafed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/loss_fn.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/loss_fn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/model_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/model_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models_attn_tandem.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models_attn_tandem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/multi_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/multi_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multi_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/multi_main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2LwT9O9fpDyjDiRw2WLboQJYBmA" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
+    &quot;credentialsType com.jetbrains.python.remote.PyCreateRemoteInterpreterDialog$PyCreateRemoteSdkForm&quot;: &quot;Web Deployment&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/liuziqiao/PycharmProjects/LightTR/img&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/Users/liuziqiao/PycharmProjects/RNTrajRec/utils/evaluation_utils.py&quot;,
+    &quot;two.files.diff.last.used.folder&quot;: &quot;/Users/liuziqiao/PycharmProjects/tptk/map_matching/hmm&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/img" />
+      <recent name="$PROJECT_DIR$/data/raw_trajectory" />
+      <recent name="$PROJECT_DIR$/data/map/road_network" />
+      <recent name="$PROJECT_DIR$/federated_utill" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.multi_main">
+    <configuration name="federated_main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="LightTR" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="sftp://liuzq@www.moocex.cn:9022/aiproj/envs/mtraj/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/federated_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="multi_main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="LightTR" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="sftp://liuzq@www.moocex.cn:9022/aiproj/envs/mtraj/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/multi_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.federated_main" />
+      <item itemvalue="Python.multi_main" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca7f6269-c813-443b-acae-07e68e74de09" name="Changes" comment="" />
+      <created>1676780994973</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676780994973</updated>
+      <workItem from="1676780998811" duration="1452000" />
+      <workItem from="1676858572657" duration="6000" />
+      <workItem from="1677204516592" duration="18909000" />
+      <workItem from="1677633478436" duration="24333000" />
+      <workItem from="1678103806222" duration="1677000" />
+      <workItem from="1678164151426" duration="806000" />
+      <workItem from="1678165550316" duration="16189000" />
+      <workItem from="1678432940343" duration="7264000" />
+      <workItem from="1678606257914" duration="183000" />
+      <workItem from="1678672372802" duration="2322000" />
+      <workItem from="1678847944479" duration="276000" />
+      <workItem from="1678848793458" duration="1421000" />
+      <workItem from="1678861884281" duration="956000" />
+      <workItem from="1678863221539" duration="2183000" />
+      <workItem from="1678865728104" duration="5510000" />
+      <workItem from="1678948685387" duration="21273000" />
+      <workItem from="1679294918626" duration="11109000" />
+      <workItem from="1679450104948" duration="5982000" />
+      <workItem from="1679475831919" duration="15214000" />
+      <workItem from="1679641935976" duration="23000" />
+      <workItem from="1679656959122" duration="1759000" />
+      <workItem from="1679898647613" duration="3776000" />
+      <workItem from="1679917397619" duration="4124000" />
+      <workItem from="1679996106208" duration="39441000" />
+      <workItem from="1680499425672" duration="15430000" />
+      <workItem from="1681110723387" duration="28373000" />
+      <workItem from="1681301336915" duration="23225000" />
+      <workItem from="1682320274064" duration="6783000" />
+      <workItem from="1683460965791" duration="21403000" />
+      <workItem from="1683978431866" duration="28241000" />
+      <workItem from="1684574881126" duration="9517000" />
+      <workItem from="1685426849332" duration="4188000" />
+      <workItem from="1685434269040" duration="3052000" />
+      <workItem from="1685684939665" duration="10738000" />
+      <workItem from="1686380703428" duration="682000" />
+      <workItem from="1686381543626" duration="190000" />
+      <workItem from="1686381879335" duration="909000" />
+      <workItem from="1686388955375" duration="1126000" />
+      <workItem from="1686641266021" duration="439000" />
+      <workItem from="1686642778104" duration="6837000" />
+      <workItem from="1687154083728" duration="5090000" />
+      <workItem from="1687245051479" duration="42000" />
+      <workItem from="1687245108517" duration="46000" />
+      <workItem from="1687245174766" duration="162000" />
+      <workItem from="1687245352193" duration="554000" />
+      <workItem from="1687245935673" duration="2387000" />
+      <workItem from="1688027358016" duration="1985000" />
+      <workItem from="1688280912336" duration="1281000" />
+      <workItem from="1688550878936" duration="965000" />
+      <workItem from="1688748394117" duration="1025000" />
+      <workItem from="1688805197959" duration="1128000" />
+      <workItem from="1688806373641" duration="2245000" />
+      <workItem from="1688885263813" duration="162000" />
+      <workItem from="1688885531041" duration="56000" />
+      <workItem from="1688885622971" duration="628000" />
+      <workItem from="1688892288859" duration="836000" />
+      <workItem from="1688994586232" duration="1428000" />
+      <workItem from="1688996464326" duration="2239000" />
+      <workItem from="1689056090642" duration="926000" />
+      <workItem from="1689057522456" duration="502000" />
+      <workItem from="1689058285953" duration="2249000" />
+      <workItem from="1689407287983" duration="30000" />
+      <workItem from="1689407361542" duration="2000" />
+      <workItem from="1689408100137" duration="7955000" />
+      <workItem from="1689427112484" duration="3880000" />
+      <workItem from="1690540535539" duration="859000" />
+      <workItem from="1693299578465" duration="894000" />
+      <workItem from="1693301912430" duration="1060000" />
+      <workItem from="1698654087563" duration="388000" />
+      <workItem from="1698826997726" duration="735000" />
+      <workItem from="1699259830049" duration="30000" />
+      <workItem from="1700142526857" duration="1933000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MTrajRec$federated_main.coverage" NAME="federated_main Coverage Results" MODIFIED="1686061681036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MTrajRec$multi_main.coverage" NAME="multi_main Coverage Results" MODIFIED="1687160556297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MTrajRec$federated_mian.coverage" NAME="federated_mian Coverage Results" MODIFIED="1681305022932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Federated_Recovery_learning$multi_main.coverage" NAME="multi_main Coverage Results" MODIFIED="1688807213275" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightTR$multi_main.coverage" NAME="multi_main Coverage Results" MODIFIED="1689428080382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
