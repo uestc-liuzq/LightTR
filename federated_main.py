@@ -7,7 +7,7 @@ from models.datasets import Dataset, collate_fn, split_data
 from models.model_utils import load_rn_dict, load_rid_freqs, get_rid_grid, get_poi_info, get_rn_info
 from models.model_utils import get_online_info_dict, epoch_time, AttrDict, get_rid_rnfea_dict
 from models.models_attn_tandem import Encoder, DecoderMulti, Seq2SeqMulti
-from utils.utils import save_json_data, create_dir, load_pkl_data
+from utils.utils import save_json_data, create_dir, load_pkl_data,data_provider
 from common.mbr import MBR
 from common.road_network import load_rn_shp
 from metafed import metafed
@@ -158,37 +158,7 @@ if __name__ == '__main__':
     logging.info(args_dict)
     norm_grid_poi_dict, norm_grid_rnfea_dict, online_features_dict = None, None, None
     rid_features_dict = None
-
-    # load dataset
-    train_dataset = Dataset(train_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
-                            norm_grid_rnfea_dict=norm_grid_rnfea_dict,
-                            parameters=args, debug=debug)
-    valid_dataset = Dataset(valid_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
-                            norm_grid_rnfea_dict=norm_grid_rnfea_dict,
-                            parameters=args, debug=debug)
-    test_dataset = Dataset(test_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
-                           norm_grid_rnfea_dict=norm_grid_rnfea_dict,
-                           parameters=args, debug=debug)
-    print('training dataset shape: ' + str(len(train_dataset)))
-    print('validation dataset shape: ' + str(len(valid_dataset)))
-    print('test dataset shape: ' + str(len(test_dataset)))
-
-    train_iterator = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size,
-                                                 shuffle=args.shuffle, collate_fn=collate_fn,
-                                                 num_workers=4, pin_memory=True)
-    valid_iterator = torch.utils.data.DataLoader(valid_dataset, batch_size=args.batch_size,
-                                                 shuffle=args.shuffle, collate_fn=collate_fn,
-                                                 num_workers=4, pin_memory=True)
-    test_iterator = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size,
-                                                shuffle=args.shuffle, collate_fn=collate_fn,
-                                                num_workers=4, pin_memory=True)
-
-    logging.info('Finish data preparing.')
-    logging.info('training dataset shape: ' + str(len(train_dataset)))
-    logging.info('validation dataset shape: ' + str(len(valid_dataset)))
-    logging.info('test dataset shape: ' + str(len(test_dataset)))
-
-
+    train_iterator,valid_iterator,test_iterator = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug)
 
     algclass = metafed(args,rn,rn_dict)
     algclass.init_model_flag(train_loaders=train_iterator, val_loaders=valid_iterator, model_save_path=model_save_path)
