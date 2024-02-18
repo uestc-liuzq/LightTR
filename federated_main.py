@@ -11,7 +11,7 @@ from utils.utils import save_json_data, create_dir, load_pkl_data,data_provider
 from common.mbr import MBR
 from common.road_network import load_rn_shp
 from metafed import metafed
-from federated_util.evalandprint import evalandprint
+from federated_util.evalandprint import evalandprint, metricandprint
 
 
 if __name__ == '__main__':
@@ -184,15 +184,9 @@ if __name__ == '__main__':
     for c_idx in range(args.n_clients):
         algclass.personalization(
             c_idx, train_iterator, valid_iterator,model_save_path)
-    best_acc, best_tacc, best_changed = evalandprint(
+    recall, precison, mae, mse = metricandprint(
         args, algclass, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
-
-    s = 'Personalized test acc for each client: '
-    for item in best_tacc:
-        s += f'{item:.4f},'
-    mean_acc_test = np.mean(np.array(best_tacc))
-    s += f'\nAverage accuracy: {mean_acc_test:.4f}'
-    print(s)
+    print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
     # for epoch in tqdm(range(global_epochs)):
     #     local_weights, local_losses = [], []
     #     print(f'\n | Global Training Round : {epoch+1} |\n')

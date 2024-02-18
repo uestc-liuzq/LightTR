@@ -14,7 +14,7 @@ from models.model_utils import epoch_time
 
 
 class metafed(torch.nn.Module):
-    def __init__(self, args,rn,rn_dict):
+    def __init__(self, args, rn, rn_dict):
         super(metafed, self).__init__()
         self.server_model, self.client_model, self.client_weight = modelsel(
             args, args.device)
@@ -46,15 +46,15 @@ class metafed(torch.nn.Module):
                                                                      client_idx], train_loaders, optimizers[
                                                                      client_idx], None, val_loaders
             for _ in range(30):
-                _, _ = self.fed_train(model,train_loader, optimizer, tmodel, self.args, self.flagl[client_idx], model_save_path)
-            _, val_acc = self.fed_test(model, val_loader)
+                _, _ = self.fed_train(model, train_loader, optimizer, tmodel, self.args, self.flagl[client_idx],
+                                      model_save_path)
+            _, val_acc, _,_,_,_ = self.fed_test(model, val_loader)
             if val_acc > self.args.threshold:
                 self.flagl[idx] = True
 
-
     def update_flag(self, val_loaders):
         for client_idx, model in enumerate(self.client_model):
-            _, val_acc = self.fed_test(
+            _, val_acc, _,_,_,_ = self.fed_test(
                 model, val_loaders)
             if val_acc > self.args.threshold:
                 self.flagl[client_idx] = True
@@ -68,18 +68,19 @@ class metafed(torch.nn.Module):
         if round == 0 and c_idx == 0:
             tmodel = None
         for _ in range(self.args.wk_iters):
-            train_loss, train_acc = self.fed_train(model, dataloader, optimizer, tmodel, self.args, self.flagl[client_idx],model_save_path)
+            train_loss, train_acc = self.fed_train(model, dataloader, optimizer, tmodel, self.args,
+                                                   self.flagl[client_idx], model_save_path)
         return train_loss, train_acc
 
-    def personalization(self, c_idx, dataloader, val_loader,model_save_path):
+    def personalization(self, c_idx, dataloader, val_loader, model_save_path):
         client_idx = self.csort[c_idx]
         model, train_loader, optimizer, tmodel = self.client_model[
                                                      client_idx], dataloader, self.optimizers[
                                                      client_idx], copy.deepcopy(self.client_model[self.csort[-1]])
 
         with torch.no_grad():
-            _, v1a = self.fed_test(model, val_loader)
-            _, v2a = self.fed_test(tmodel, val_loader)
+            _, v1a, _,_,_,_ = self.fed_test(model, val_loader)
+            _, v2a, _,_,_,_= self.fed_test(tmodel, val_loader)
 
         if v2a <= v1a and v2a < self.thes:
             lam = 0
@@ -87,13 +88,19 @@ class metafed(torch.nn.Module):
             lam = (10 ** (min(1, (v2a - v1a) * 5))) / 10 * self.args.lam
 
         for _ in range(self.args.wk_iters):
-            train_loss, train_acc = self.fed_train(model,dataloader, optimizer, tmodel, self.args, self.flagl[client_idx],model_save_path)
+            train_loss, train_acc = self.fed_train(model, dataloader, optimizer, tmodel, self.args,
+                                                   self.flagl[client_idx], model_save_path)
         return train_loss, train_acc
 
     def client_eval(self, c_idx, dataloader):
-        train_loss, train_acc = self.fed_test(
+        train_loss, train_acc, recall, precision, mae, mse = self.fed_test(
             self.client_model[c_idx], dataloader)
         return train_loss, train_acc
+
+    def client_metrics(self, c_idx, dataloader):
+        train_loss, train_acc, recall, precision, mae, mse = self.fed_test(
+            self.client_model[c_idx], dataloader)
+        return recall, precision, mae, mse
 
     def fed_train(self, model, iterator, optimizer, tmodel, args, flag, model_save_path):
         model.train()
@@ -118,7 +125,7 @@ class metafed(torch.nn.Module):
         epoch_loss = []
 
         # get all parameters (model parameters + task dependent log variances)
-        log_vars = [torch.zeros((1,), requires_grad=True, device=self.device)] * 2 # use for auto-tune multi-task param
+        log_vars = [torch.zeros((1,), requires_grad=True, device=self.device)] * 2  # use for auto-tune multi-task param
         self.iterator = iterator
         for epoch in tqdm(range(self.args.n_epochs)):
             start_time = time.time()
@@ -158,7 +165,7 @@ class metafed(torch.nn.Module):
             epoch_loss.append(train_loss)
         return sum(epoch_loss) / len(epoch_loss), sum(ls_train_id_acc1) / len(ls_train_id_acc1)
 
-    def fed_test(self, model,dataloader):
+    def fed_test(self, model, dataloader):
         norm_grid_poi_dict, norm_grid_rnfea_dict, online_features_dict = None, None, None
         rid_features_dict = None
 
@@ -174,10 +181,10 @@ class metafed(torch.nn.Module):
         log_vars = [torch.zeros((1,), requires_grad=True, device=self.device)] * 2  # use for auto-tune multi-task param
         for epoch in tqdm(range(self.args.n_epochs)):
             start_time = time.time()
-            valid_id_acc1, valid_id_recall, valid_id_precision,\
+            valid_id_acc1, valid_id_recall, valid_id_precision, \
             valid_rate_loss, valid_id_loss, valid_dis_mae_loss, valid_dis_rmse_loss, valid_dis_rn_mae_loss, \
             valid_dis_rn_rmse_loss, = evaluate(model, self.iterator, self.rn, self.rn_dict,
-                                                      online_features_dict, rid_features_dict, self.args)
+                                               online_features_dict, rid_features_dict, self.args)
             # valid_id_acc1, valid_id_recall, valid_id_precision, \
             # valid_rate_loss, valid_id_loss = evaluate(model, self.iterator, self.rn, self.rn_dict,
             #                                           online_features_dict, rid_features_dict, self.args)
@@ -210,7 +217,7 @@ class metafed(torch.nn.Module):
             if valid_loss < best_valid_loss:
                 best_valid_loss = valid_loss
 
-            if (epoch % 9 == 0):
+            if (epoch % 49 == 0):
                 print('Epoch: ' + str(epoch + 1) + ' Time: ' + str(epoch_mins) + 'm' + str(epoch_secs) + 's')
                 print('\tValid Loss:' + str(valid_loss) +
                       '\tValid RID Acc1:' + str(valid_id_acc1) +
@@ -223,9 +230,11 @@ class metafed(torch.nn.Module):
                       '\tValid Rate Loss:' + str(valid_rate_loss) +
                       '\tValid RID Loss:' + str(valid_id_loss))
 
-        return sum(ls_valid_loss)/len(ls_valid_loss), sum(ls_valid_id_acc1)/len(ls_valid_id_acc1)
-
-
+        return sum(ls_valid_loss) / len(ls_valid_loss), sum(ls_valid_id_acc1) / len(ls_valid_id_acc1), \
+               sum(ls_valid_id_recall) / len(ls_valid_id_recall), sum(ls_valid_id_precision) / len(
+            ls_valid_id_precision), \
+               sum(ls_valid_dis_mae_loss) / len(ls_valid_dis_mae_loss), sum(ls_valid_dis_rmse_loss) / len(
+            ls_valid_dis_rmse_loss)
 
 
 def modelsel(args, device):
