@@ -1,4 +1,4 @@
-# LightTR （Under Review)
+# LightTR
 
 [//]: # (<p align="center">)
 
