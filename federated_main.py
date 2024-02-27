@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('--no_debug', action='store_false', help='flag of debug')
     parser.add_argument('--no_train_flag', action='store_false', help='flag of training')
     parser.add_argument('--test_flag', action='store_true', help='flag of testing')
-    parser.add_argument('--n_clients', type=int, help='number of clients')
+    parser.add_argument('--n_clients', type=int, default=10, help='number of clients')
     parser.add_argument('--fraction', type=float, default=1.0, help= 'fractions of clients')
     parser.add_argument('--threshold', type=float, default=0.5,
                         help='threshold to use copy or distillation, hyperparmeter for metafed')

@@ -247,7 +247,7 @@ def modelsel(args, device):
 
     print('model' + str(server_model))
 
-    client_weights = [1 / args.n_clients for _ in range(args.n_clients)]
+    client_weights = [1 / args.n_clients for i in range(args.n_clients)]
     models = [copy.deepcopy(server_model).to(device)
               for _ in range(args.n_clients)]
     return server_model, models, client_weights
