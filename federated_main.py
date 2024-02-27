@@ -36,6 +36,7 @@ if __name__ == '__main__':
     parser.add_argument('--no_train_flag', action='store_false', help='flag of training')
     parser.add_argument('--test_flag', action='store_true', help='flag of testing')
     parser.add_argument('--n_clients', type=int, help='number of clients')
+    parser.add_argument('--fraction', type=float, default=1.0, help= 'fractions of clients')
     parser.add_argument('--threshold', type=float, default=0.5,
                         help='threshold to use copy or distillation, hyperparmeter for metafed')
     parser.add_argument('--lam', type=float, default=1.0,
@@ -178,14 +179,14 @@ if __name__ == '__main__':
                 client, train_iterator, iter, model_save_path)
         LTR.update_flag(valid_iterator)
         best_acc, best_tacc, best_changed = evalandprint(
-            args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
+            args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
 
     print('Personalization stage')
     for client in range(args.n_clients):
         LTR.personalization(
             client, train_iterator, valid_iterator,model_save_path)
     recall, precison, mae, mse = metricandprint(
-        args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
+        args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
     print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
     # for epoch in tqdm(range(global_epochs)):
     #     local_weights, local_losses = [], []
