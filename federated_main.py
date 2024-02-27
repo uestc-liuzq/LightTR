@@ -3,11 +3,11 @@ import time
 import numpy as np
 import argparse
 import torch
-from models.datasets import Dataset, collate_fn, split_data
+from models.datasets import split_data,data_provider
 from models.model_utils import load_rn_dict, load_rid_freqs, get_rid_grid, get_poi_info, get_rn_info
 from models.model_utils import get_online_info_dict, epoch_time, AttrDict, get_rid_rnfea_dict
 from models.models_attn_tandem import Encoder, DecoderMulti, Seq2SeqMulti
-from utils.utils import save_json_data, create_dir, load_pkl_data,data_provider
+from utils.utils import save_json_data, create_dir, load_pkl_data
 from common.mbr import MBR
 from common.road_network import load_rn_shp
 from metafed import metafed
@@ -159,7 +159,8 @@ if __name__ == '__main__':
     logging.info(args_dict)
     norm_grid_poi_dict, norm_grid_rnfea_dict, online_features_dict = None, None, None
     rid_features_dict = None
-    train_iterator,valid_iterator,test_iterator = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug)
+    train_iterator,valid_iterator,test_iterator = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,
+                                                                mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug)
 
     LTR = metafed(args,rn,rn_dict)
     LTR.init_model_flag(train_loaders=train_iterator, val_loaders=valid_iterator, model_save_path=model_save_path)
@@ -174,6 +175,7 @@ if __name__ == '__main__':
 
     for iter in range(start_iter, args.global_epochs):
         print(f"============ Train round============", iter)
+        args.n_clients *= args.fraction
         for client in range(args.n_clients):
             LTR.client_train(
                 client, train_iterator, iter, model_save_path)

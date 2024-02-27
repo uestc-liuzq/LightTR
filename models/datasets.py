@@ -46,7 +46,7 @@ def split_data(traj_input_dir, output_dir):
         print("target traj test len: ", len(trg_trajs[test_inds]))
 
 
-class Dataset(torch.utils.data.Dataset):
+class TrajDataset(torch.utils.data.Dataset):
     """
     customize a dataset for PyTorch
     """
@@ -411,3 +411,30 @@ def collate_fn(data):
 
     return src_grid_seqs, src_gps_seqs, src_pro_feas, src_lengths, trg_gps_seqs, trg_rids, trg_rates, trg_lengths
 
+
+def data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug):
+    train_dataset = TrajDataset(train_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
+                            norm_grid_rnfea_dict=norm_grid_rnfea_dict,
+                            parameters=args, debug=debug)
+    valid_dataset = TrajDataset(valid_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
+                            norm_grid_rnfea_dict=norm_grid_rnfea_dict,
+                            parameters=args, debug=debug)
+    test_dataset = TrajDataset(test_trajs_dir, mbr=mbr, norm_grid_poi_dict=norm_grid_poi_dict,
+                           norm_grid_rnfea_dict=norm_grid_rnfea_dict,
+                           parameters=args, debug=debug)
+    print('Finish data preparing.')
+    print('training dataset shape: ' + str(len(train_dataset)))
+    print('validation dataset shape: ' + str(len(valid_dataset)))
+    print('test dataset shape: ' + str(len(test_dataset)))
+
+    train_iterator = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size,
+                                                 shuffle=args.shuffle, collate_fn=collate_fn,
+                                                 num_workers=4, pin_memory=True)
+    valid_iterator = torch.utils.data.DataLoader(valid_dataset, batch_size=args.batch_size,
+                                                 shuffle=args.shuffle, collate_fn=collate_fn,
+                                                 num_workers=4, pin_memory=True)
+    test_iterator = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size,
+                                                shuffle=args.shuffle, collate_fn=collate_fn,
+                                                num_workers=4, pin_memory=True)
+
+    return train_iterator, valid_iterator, test_iterator
