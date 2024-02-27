@@ -160,8 +160,8 @@ if __name__ == '__main__':
     rid_features_dict = None
     train_iterator,valid_iterator,test_iterator = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug)
 
-    algclass = metafed(args,rn,rn_dict)
-    algclass.init_model_flag(train_loaders=train_iterator, val_loaders=valid_iterator, model_save_path=model_save_path)
+    LTR = metafed(args,rn,rn_dict)
+    LTR.init_model_flag(train_loaders=train_iterator, val_loaders=valid_iterator, model_save_path=model_save_path)
     args.epochs = args.epochs-1
     print('Common knowledge accumulation stage')
 
@@ -171,21 +171,21 @@ if __name__ == '__main__':
     best_tacc = [0] * args.n_clients
     start_iter = 0
 
-    for a_iter in range(start_iter, args.global_epochs):
-        print(f"============ Train round {a_iter} ============")
-        for c_idx in range(args.n_clients):
-            algclass.client_train(
-                c_idx, train_iterator, a_iter, model_save_path)
-        algclass.update_flag(valid_iterator)
+    for iter in range(start_iter, args.global_epochs):
+        print(f"============ Train round============", iter)
+        for client in range(args.n_clients):
+            LTR.client_train(
+                client, train_iterator, iter, model_save_path)
+        LTR.update_flag(valid_iterator)
         best_acc, best_tacc, best_changed = evalandprint(
-            args, algclass, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
+            args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
 
     print('Personalization stage')
-    for c_idx in range(args.n_clients):
-        algclass.personalization(
-            c_idx, train_iterator, valid_iterator,model_save_path)
+    for client in range(args.n_clients):
+        LTR.personalization(
+            client, train_iterator, valid_iterator,model_save_path)
     recall, precison, mae, mse = metricandprint(
-        args, algclass, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
+        args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, a_iter, best_changed)
     print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
     # for epoch in tqdm(range(global_epochs)):
     #     local_weights, local_losses = [], []
