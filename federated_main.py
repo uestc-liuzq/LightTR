@@ -6,7 +6,7 @@ import torch
 from models.datasets import split_data,data_provider
 from models.model_utils import load_rn_dict, load_rid_freqs, get_rid_grid, get_poi_info, get_rn_info
 from models.model_utils import get_online_info_dict, epoch_time, AttrDict, get_rid_rnfea_dict
-from models.models_attn_tandem import Encoder, DecoderMulti, Seq2SeqMulti
+from models.models_LTR import Encoder, DecoderMulti, Seq2SeqMulti
 from utils.utils import save_json_data, create_dir, load_pkl_data
 from common.mbr import MBR
 from common.road_network import load_rn_shp
@@ -27,7 +27,6 @@ if __name__ == '__main__':
     parser.add_argument('--grid_size', type=int, default=50, help='grid size in int')
     parser.add_argument('--dis_prob_mask_flag', action='store_true', help='flag of using prob mask')
     parser.add_argument('--pro_features_flag', action='store_true', help='flag of using profile features')
-    parser.add_argument('--online_features_flag', default=False, help='flag of using online features')
     parser.add_argument('--tandem_fea_flag', action='store_true', help='flag of using tandem rid features')
     parser.add_argument('--no_attn_flag', default=False, help='flag of using attention')
     parser.add_argument('--load_pretrained_flag', action='store_true', help='flag of load pretrained model')
@@ -65,8 +64,6 @@ if __name__ == '__main__':
         'train_flag': opts.no_train_flag,
         'test_flag': opts.test_flag,
         'epochs': opts.epochs,
-        # attention
-        'attn_flag': opts.no_attn_flag,
 
         # constranit
         'dis_prob_mask_flag': opts.dis_prob_mask_flag,
@@ -76,7 +73,6 @@ if __name__ == '__main__':
         # features
         'tandem_fea_flag': opts.tandem_fea_flag,
         'pro_features_flag': opts.pro_features_flag,
-        'online_features_flag': opts.online_features_flag,
 
         # extra info module
         'rid_fea_dim': 8,
@@ -94,8 +90,8 @@ if __name__ == '__main__':
         # input data params
         'keep_ratio': opts.keep_ratio,
         'grid_size': opts.grid_size,
-        'time_span': 50,
-        'win_size': 50,
+        'time_span': 5,
+        'win_size': 20,
         'ds_type': 'random',
         'split_flag': False,
         'shuffle': True,
@@ -104,7 +100,7 @@ if __name__ == '__main__':
         'hid_dim': opts.hid_dim,
         'id_emb_dim': 256,
         'dropout': 0.5,
-        'id_size': 49853 + 1,
+        'id_size': 49853,
 
         'lambda1': opts.lambda1,
         'n_epochs': opts.epochs,
@@ -138,7 +134,7 @@ if __name__ == '__main__':
         model_save_path = './results/' + args.module_type + '_kr_' + str(args.keep_ratio) + '_debug_' + str(
             args.debug) + \
                           '_gs_' + str(args.grid_size) + '_lam_' + str(args.lambda1) + \
-                          '_attn_' + str(args.attn_flag) + '_prob_' + str(args.dis_prob_mask_flag) + \
+                          '_prob_' + str(args.dis_prob_mask_flag) + \
                           '_fea_' + str(fea_flag) + '_' + time.strftime("%Y%m%d_%H%M%S") + '/'
         create_dir(model_save_path)
 
@@ -159,11 +155,11 @@ if __name__ == '__main__':
     logging.info(args_dict)
     norm_grid_poi_dict, norm_grid_rnfea_dict, online_features_dict = None, None, None
     rid_features_dict = None
-    train_iterator,valid_iterator,test_iterator = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,
+    train_teacher, valid_teacher,_ = data_provider(args,train_trajs_dir,valid_trajs_dir,test_trajs_dir,
                                                                 mbr,norm_grid_poi_dict,norm_grid_rnfea_dict,debug)
 
     LTR = metafed(args,rn,rn_dict)
-    LTR.init_model_flag(train_loaders=train_iterator, val_loaders=valid_iterator, model_save_path=model_save_path)
+    LTR.init_model_flag(train_loaders=train_teacher, val_loaders=valid_teacher, model_save_path=model_save_path)
     args.epochs = args.epochs-1
     print('Common knowledge accumulation stage')
 
@@ -175,6 +171,8 @@ if __name__ == '__main__':
 
     for iter in range(start_iter, args.global_epochs):
         print(f"============ Train round============", iter)
+        train_iterator, valid_iterator, test_iterator = data_provider(args, train_trajs_dir, valid_trajs_dir, test_trajs_dir,
+                                                          mbr, norm_grid_poi_dict, norm_grid_rnfea_dict, debug)
         args.n_clients *= args.fraction
         for client in range(args.n_clients):
             LTR.client_train(
@@ -190,6 +188,8 @@ if __name__ == '__main__':
     recall, precison, mae, mse = metricandprint(
         args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
     print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
+
+
     # for epoch in tqdm(range(global_epochs)):
     #     local_weights, local_losses = [], []
     #     print(f'\n | Global Training Round : {epoch+1} |\n')
