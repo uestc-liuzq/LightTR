@@ -181,13 +181,13 @@ if __name__ == '__main__':
         best_acc, best_tacc, best_changed = evalandprint(
             args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
 
-    print('Personalization stage')
-    for client in range(args.n_clients):
-        LTR.personalization(
-            client, train_iterator, valid_iterator,model_save_path)
-    recall, precison, mae, mse = metricandprint(
-        args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
-    print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
+        print('Personalization stage')
+        for client in range(args.n_clients):
+            LTR.personalization(
+                client, train_iterator, valid_iterator,model_save_path)
+        recall, precison, mae, mse = metricandprint(
+            args, LTR, train_iterator, valid_iterator, test_iterator, model_save_path, best_acc, best_tacc, iter, best_changed)
+        print(f'Recall:{recall},Precision{precison},MAE{mae},MSE{mse}')
 
 
     # for epoch in tqdm(range(global_epochs)):
