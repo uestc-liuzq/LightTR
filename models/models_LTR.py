@@ -112,10 +112,6 @@ class DecoderMulti(nn.Module):
             nn.ReLU()
         )
 
-        # if self.attn_flag:
-        #     self.attn = Attention(parameters)
-        #     rnn_input_dim = rnn_input_dim + self.hid_dim
-
         if self.tandem_fea_flag:
             fc_rate_out_input_dim = self.hid_dim + self.rid_fea_dim
 
