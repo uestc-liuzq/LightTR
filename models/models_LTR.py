@@ -138,9 +138,6 @@ class DecoderMulti(nn.Module):
         fc_rate_out_input_dim = self.hid_dim
 
         type_input_dim = self.id_emb_dim + self.hid_dim
-        self.Decomposed_fc = nn.Sequential(
-            DecomposedLinear(type_input_dim, self.hid_dim)
-        )
         self.tandem_fc = nn.Sequential(
             nn.Linear(type_input_dim, self.hid_dim),
             nn.ReLU()
