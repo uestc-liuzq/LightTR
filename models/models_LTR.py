@@ -95,8 +95,6 @@ class DecoderMulti(nn.Module):
         self.pro_output_dim = parameters.pro_output_dim
         self.online_dim = parameters.online_dim
         self.rid_fea_dim = parameters.rid_fea_dim
-
-        self.attn_flag = parameters.attn_flag
         self.dis_prob_mask_flag = parameters.dis_prob_mask_flag  # final softmax
         self.tandem_fea_flag = parameters.tandem_fea_flag
 
@@ -144,27 +142,7 @@ class DecoderMulti(nn.Module):
         embedded = self.dropout(self.emb_id(input_id))
         # embedded = [1, batch size, emb dim]
 
-        if self.attn_flag:
-            a = self.attn(hidden, encoder_outputs, attn_mask)
-            # a = [batch size, src len]
-            a = a.unsqueeze(1)
-            # a = [batch size, 1, src len]
-            encoder_outputs = encoder_outputs.permute(1, 0, 2)
-            # encoder_outputs = [batch size, src len, hid dim * num directions]
-            weighted = torch.bmm(a, encoder_outputs)
-            # weighted = [batch size, 1, hid dim * num directions]
-            weighted = weighted.permute(1, 0, 2)
-            # weighted = [1, batch size, hid dim * num directions]
-
-            if self.online_features_flag:
-                rnn_input = torch.cat((weighted, embedded, input_rate,
-                                       online_features.unsqueeze(0)), dim=2)
-            else:
-                rnn_input = torch.cat((weighted, embedded, input_rate), dim=2)
-        else:
-            # if self.online_features_flag:
-            #     rnn_input = torch.cat((embedded, input_rate, online_features.unsqueeze(0)), dim=2)
-            rnn_input = torch.cat((embedded, input_rate), dim=2)
+        rnn_input = torch.cat((embedded, input_rate), dim=2)
 
         output, hidden = self.rnn(rnn_input, hidden)
         #
@@ -240,16 +218,8 @@ class Seq2SeqMulti(nn.Module):
         # hidden is the final forward and backward hidden states, passed through a linear layer
         encoder_outputs, hiddens = self.encoder(src, src_len, pro_features)
 
-        if self.decoder.attn_flag:
-            attn_mask = torch.zeros(batch_size, max(src_len))  # only attend on unpadded sequence
-            for i in range(len(src_len)):
-                attn_mask[i][:src_len[i]] = 1.
-            attn_mask = attn_mask.to(self.device)
-        else:
-            attn_mask = None
-
         outputs_id, outputs_rate = self.normal_step(max_trg_len, batch_size, trg_id, trg_rate, trg_len,
-                                                    encoder_outputs, hiddens, attn_mask,
+                                                    encoder_outputs, hiddens,
                                                     online_features_dict,
                                                     rid_features_dict,
                                                     pre_grids, next_grids, constraint_mat, pro_features,
@@ -258,8 +228,7 @@ class Seq2SeqMulti(nn.Module):
         return outputs_id, outputs_rate
 
     def normal_step(self, max_trg_len, batch_size, trg_id, trg_rate, trg_len, encoder_outputs, hidden,
-                    attn_mask, online_features_dict, rid_features_dict,
-                    pre_grids, next_grids, constraint_mat, pro_features, teacher_forcing_ratio):
+                    online_features_dict, rid_features_dict,pre_grids, next_grids, constraint_mat, pro_features, teacher_forcing_ratio):
         """
         Returns:
         -------
@@ -286,7 +255,7 @@ class Seq2SeqMulti(nn.Module):
             else:
                 rid_features = None
             prediction_id, prediction_rate, _ = self.decoder(input_id, input_rate, hidden, encoder_outputs,
-                                                             attn_mask, pre_grids[t], next_grids[t],
+                                                             pre_grids[t], next_grids[t],
                                                              constraint_mat[t], pro_features, online_features,
                                                              rid_features)
 
