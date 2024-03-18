@@ -85,37 +85,6 @@ class Encoder(nn.Module):
         return outputs, hidden
 
 
-# class Attention(nn.Module):
-#     # TODO update to more advanced attention layer.
-#     def __init__(self, parameters):
-#         super().__init__()
-#         self.hid_dim = parameters.hid_dim
-#
-#         self.attn = nn.Linear(self.hid_dim * 2, self.hid_dim)
-#         self.v = nn.Linear(self.hid_dim, 1, bias=False)
-#
-#     def forward(self, hidden, encoder_outputs, attn_mask):
-#         # hidden = [1, bath size, hid dim]
-#         # encoder_outputs = [src len, batch size, hid dim * num directions]
-#         src_len = encoder_outputs.shape[0]
-#         # repeat decoder hidden sate src_len times
-#         hidden = hidden.repeat(src_len, 1, 1)
-#         hidden = hidden.permute(1, 0, 2)
-#         encoder_outputs = encoder_outputs.permute(1, 0, 2)
-#         # hidden = [batch size, src len, hid dim]
-#         # encoder_outputs = [batch size, src len, hid dim * num directions]
-#
-#         energy = torch.tanh(self.attn(torch.cat((hidden, encoder_outputs), dim=2)))
-#         # energy = [batch size, src len, hid dim]
-#
-#         attention = self.v(energy).squeeze(2)
-#         # attention = [batch size, src len]
-#         attention = attention.masked_fill(attn_mask == 0, -1e10)
-#         # using mask to force the attention to only be over non-padding elements.
-#
-#         return F.softmax(attention, dim=1)
-
-
 class DecoderMulti(nn.Module):
     def __init__(self, parameters):
         super().__init__()
